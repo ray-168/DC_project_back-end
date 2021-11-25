@@ -1,0 +1,416 @@
+body {
+  background-image: url(/images/evening-cloudy-sky-purple-background-with-group-cumulus-cirrus-clouds-flat-cartoon-illustration_1284-62768.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  color: white;
+  font-family: "Roboto", sans-serif;
+}
+
+/* add new */
+
+.card-body{
+  background-color: rgba(234, 231, 240, 0.849);
+  border-radius: 2%;
+  
+}
+/* end add new */
+
+
+
+.top {
+  display: flex;
+  max-height: 150px;
+}
+
+.slogan {
+  color: white;
+  position: absolute;
+  margin-top: 75px;
+  margin-left: 150px;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  background-color: rgba(100, 50, 200, 0.5);
+  margin-left: 38%;
+  justify-content: center;
+  border: #a286ef 2px solid;
+  border-radius: 25px;
+  text-align: center;
+  width: 400px;
+  height: 450px;
+}
+
+.icon {
+  position: absolute;
+  margin-top: 20px;
+  margin-left: -310px;
+  height: 20px;
+  width: 20px;
+}
+.myInput {
+  display: flex;
+  flex-direction: row;
+  justify-content: right;
+}
+
+.inp {
+  width: 80%;
+  padding-left: 40px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  margin: 8px 25px;
+  display: inline-block;
+  border: 1px solid #a286ef;
+  border-radius: 10px;
+  background-color: rgba(200, 200, 240, 0.5);
+  box-sizing: border-box;
+}
+
+.inp:focus {
+  border: 2px solid #a286ef;
+}
+
+.sign_in_btn {
+  display: flex;
+  flex-direction: row;
+  margin-left: 30%;
+  padding-top: 10px;
+  border-radius: 8px;
+  background-color: #0000a0;
+  color: white;
+}
+
+.login_btn {
+  border-radius: 8px;
+  background-color: #0000a0;
+  color: white;
+  width: 70px;
+  padding: 5px 10px;
+}
+
+.KIT {
+  color: antiquewhite;
+  display: flex;
+  justify-content: center;
+}
+
+.foot {
+  margin-top: 50px;
+  margin-right: 20px;
+  float: right;
+}
+
+@media (min-width: 320px) {
+
+  .top img {
+    width: 100px;
+    height: 100px;
+  }
+
+  .slogan {
+    font-size: 10px;
+    margin-top: 50px;
+    margin-left: 10px;
+  }
+  .KIT {
+    display: flex;
+    justify-content: center;
+    margin-top: 0px;
+    font-size: 0.6em;
+  }
+  .container {
+    margin-left: 25px;
+    width: 250px;
+    height: 350px;
+  }
+  .login h1 {
+    font-size: 1.5em;
+  }
+
+  .icon {
+    margin-left: -195px;
+    height: 12px;
+    width: 12px;
+  }
+  .sign_in_btn {
+    margin-left: 23%;
+    padding-top: 0.5em;
+    border-radius: 8px;
+    font-size: 0.7em;
+  }
+  .login_btn{
+    font-size: 0.7em;
+  }
+  .foot {
+    margin-right: 45px;
+    margin-top: 5px;
+    font-size: 15px;
+  }
+}
+
+@media (min-width: 360px) {
+  .top {
+    height: 430px;
+  }
+  .top img {
+    width: 120px;
+    height: 120px;
+  }
+  .slogan {
+    font-size: 12px;
+    margin-top: 60px;
+    margin-left: 10px;
+  }
+  .KIT {
+    margin-top: -20px;
+    font-size: 0.7em;
+  }
+  .container {
+    margin-left: 40px;
+    margin-top: 10px;
+    width: 275px;
+    height: 300px;
+  }
+  .signup h1 {
+    font-size: 1.75em;
+  }
+
+  .icon {
+    margin-left: -215px;
+    height: 15px;
+    width: 15px;
+  }
+  .sign_in_btn {
+    margin-left: 26%;
+    padding-top: 5px;
+    font-size: 0.7em;
+  }
+  .login_btn{
+    font-size: 0.7em;
+  }
+  .foot {
+    margin-right: 70px;
+    margin-top: 50px;
+    font-size: 15px;
+  }
+}
+
+@media (min-height:812px){
+  .container{
+    height: 450px;
+  }
+}
+
+@media (min-width: 411px) {
+  .KIT {
+    font-size: 0.8em;
+  }
+  .container {
+    margin-left: 60px;
+    height: 400px;
+  }
+  .top img {
+    width: 120px;
+    height: 120px;
+  }
+  .slogan {
+    font-size: 12px;
+    margin-top: 55px;
+    margin-left: 10px;
+  }
+  .sign_in_btn{
+    font-size: 0.7em;
+  }
+  .login_btn{
+    font-size: 0.7em;
+  }
+  .foot {
+    margin-right: 95px;
+    margin-top: 30px;
+  }
+}
+@media (min-height:823px){
+  .container{
+    height: 450px;
+  }
+}
+
+@media (min-width: 768px) {
+  .top img {
+    width: 160px;
+    height: 160px;
+  }
+
+  .slogan {
+    font-size: 17px;
+    margin-top: 75px;
+    margin-left: 20px;
+  }
+  .KIT {
+    margin-top: 80px;
+    font-size:1em;
+  }
+  .container {
+    margin-left: 180px;
+    width: 400px;
+    height: 500px;
+  }
+  .login h1 {
+    font-size: 2.5em;
+  }
+
+  .icon {
+    margin-top: 20px;
+    margin-left: -315px;
+    height: 15px;
+    width: 15px;
+  }
+  .sign_in_btn {
+    margin-left: 26%;
+    padding-top: 0.5em;
+    border-radius: 8px;
+    font-size: 1em;
+  }
+  .login_btn{
+    font-size: 1em;
+  }
+  .foot {
+    margin-right: 50px;
+    margin-top: 50px;
+    font-size: 17px;
+  }
+}
+
+@media (min-width: 1024px) {
+
+  .top img {
+    width: 250px;
+    height: 250px;
+  }
+
+  .slogan {
+    font-size: 2em;
+    margin-top: 105px;
+    margin-left: 20px;
+  }
+  .KIT {
+    margin-top: 130px;
+    font-size: 1.5em;
+  }
+  .container {
+    margin-left: 250px;
+    margin-top: 100px;
+    width: 500px;
+    height: 700px;
+  }
+  .myInput {
+    margin-top: 20px;
+  }
+
+  .inp {
+    width: 80%;
+    padding-left: 50px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    margin: 8px 40px;
+    display: inline-block;
+    border: 1px solid #a286ef;
+    border-radius: 10px;
+    background-color: rgba(200, 200, 240, 0.5);
+    box-sizing: border-box;
+  }
+
+  .login h1 {
+    font-size: 4em;
+    margin-bottom: 50px;
+  }
+
+  .icon {
+    margin-top: 20px;
+    margin-left: -400px;
+    height: 25px;
+    width: 25px;
+  }
+  .sign_in_btn {
+    margin-left: 29%;
+    padding-top: 0.5em;
+    border-radius: 0.5em;
+    font-size: 1.5em;
+  }
+  .login_btn{
+    padding-top: 0.5em;
+    border-radius: 0.5em;
+    font-size: 1.5em;
+    width: 110px;
+  }
+  .foot {
+    margin-right: 50px;
+    font-size: 1.6em;
+  }
+}
+
+@media (min-width: 1060px) {
+
+  .top img {
+    width: 200px;
+    height: 200px;
+  }
+
+  .slogan {
+    font-size: 1em;
+    margin-top: 100px;
+    margin-left: 25px;
+  }
+  .KIT {
+    margin-top: 0px;
+    font-size: 1em;
+  }
+  .container {
+    margin-left: 38%;
+    margin-top: 20px;
+    width: 350px;
+    height: 400px;
+  }
+  .inp {
+    width: 80%;
+    padding-left: 40px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin: 0px 40px;
+    display: inline-block;
+    border: 1px solid #a286ef;
+    border-radius: 10px;
+    background-color: rgba(200, 200, 240, 0.5);
+    box-sizing: border-box;
+  }
+
+  .login h1 {
+    font-size: 2.2em;
+    margin-bottom: 0px;
+  }
+
+  .icon {
+    margin-top: 15px;
+    margin-left: -280px;
+    height: 15px;
+    width: 15px;
+  }
+  .sign_in_btn {
+    margin-left: 31%;
+    padding-top: 0.5em;
+    border-radius: 0.5em;
+    font-size: 0.7em;
+  }
+  .login_btn{
+    margin-bottom: 20px;
+    border-radius: 0.5em;
+    font-size: 0.7em;
+    width: 60px;
+  }
+  .foot {
+    margin-top: 20px;
+    font-size: 1em;
+  }
+}

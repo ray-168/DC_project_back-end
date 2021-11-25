@@ -1,0 +1,899 @@
+.container {
+  display: flex;
+  flex-direction: column;
+}
+.myHead {
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  border-radius: 0 0 25px 25px;
+  background-repeat: no-repeat;
+  background-size: 100%;
+  background-color: #22476d;
+  /* background-image: url(./images/evening-cloudy-sky-purple-background-with-group-cumulus-cirrus-clouds-flat-cartoon-illustration_1284-62768.jpg); */
+}
+.mainHead {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  height: 130px;
+}
+
+.top {
+  display: flex;
+  max-height: 150px;
+}
+
+.coin_logo {
+  width: 200px;
+  height: 200px;
+}
+
+.slogan {
+  color: white;
+  position: absolute;
+  margin-top: 75px;
+  margin-left: 150px;
+}
+
+.allThree {
+  margin-top: 50px;
+  margin-left: 1250px;
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+}
+
+.logout {
+  padding: 5px;
+  border-radius: 10px;
+  border: none;
+  margin: 10px;
+  cursor: pointer;
+}
+
+.menu {
+  padding: 5px;
+  border: none;
+  border-radius: 10px;
+  margin: 10px;
+  cursor: pointer;
+}
+
+.menu_icon {
+  height: 13px;
+  width: 20px;
+}
+.register {
+  border-radius: 50%;
+  border: none;
+  background-color: orange;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+}
+
+.nameApp {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  color: white;
+}
+.searchContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.search_btn {
+  position: absolute;
+  background-color: white;
+  border: none;
+  height: 2em;
+  margin-top: -2.5em;
+  margin-left: -16em;
+}
+
+.mySearch {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  /* margin-right: 40px; */
+}
+
+.search {
+  padding-left: 50px;
+  padding-right: 30px;
+  border: none;
+  height: 30px;
+  border-radius: 10px;
+}
+
+.search_icon {
+  /* position: absolute;
+  margin-top: 5px;
+  margin-left: -210px; */
+  height: 20px;
+  width: 20px;
+}
+
+.b_container {
+  display: flex;
+  flex-direction: column;
+  background-size: 100%;
+  /* background-image: url(./images/anime-clouds-png-Transparent-Images.png); */
+}
+
+.b_head {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.add_icon {
+  height: 20px;
+}
+
+.add {
+  border: none;
+  border-radius: 10px;
+  width: 90px;
+  cursor: pointer;
+}
+
+.b_app {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 80%;
+  width: 80%;
+  background-color: #22476d;
+  margin-left: 10%;
+  border-radius: 10px;
+  overflow-y: scroll;
+}
+
+.row1 {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  margin: 30px;
+}
+
+.app1 {
+  background-color: rgba(50, 100, 200, 0.5);
+  padding-top: 30px;
+  width: 125px;
+  height: 125px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: white;
+  text-align: center;
+}
+
+.close-modal {
+  position: absolute;
+  top: 1.2rem;
+  right: 2rem;
+  font-size: 1.5rem;
+  color: #333;
+  cursor: pointer;
+  border: none;
+  background-color: none;
+}
+
+.popup {
+  font-size: 0.7em;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 15%;
+  height: 50%;
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 1rem;
+  box-sizing: 0 3rem 5rem rgba(0, 0, 0, 0.3);
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+.hidden {
+  display: none;
+}
+.uploadimage {
+  width: 55px;
+  height: 50px;
+  border: none;
+  cursor: pointer;
+}
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 140%;
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(3px);
+  z-index: 5;
+}
+
+@media (min-width: 320px) {
+  .myHead {
+    height: 120px;
+    border-radius: 0 0 1em 1em;
+  }
+
+  .coin_logo {
+    width: 100px;
+    height: 100px;
+  }
+
+  .slogan {
+    font-size: 10px;
+    margin-top: 50px;
+    margin-left: 10px;
+  }
+
+  .allThree {
+    flex-direction: column-reverse;
+    margin-top: 30px;
+    margin-left: 250px;
+  }
+
+  .logout {
+    padding: 0.2em;
+    border-radius: 0.5em;
+    font-size: 0.3em;
+  }
+
+  .menu {
+    padding: 0.1em;
+    font-size: 0.3em;
+    margin-top: 10px;
+    border-radius: 0.5em;
+  }
+
+  .menu_icon {
+    height: 5px;
+    width: 5px;
+  }
+  .add_icon {
+    height: 5px;
+  }
+
+  .add {
+    background-color: white;
+    width: 20px;
+    padding: 0.1em;
+    border-radius: 0.5em;
+    font-size: 0.3em;
+    margin-left: 9px;
+  }
+  .register {
+    margin-left: 10px;
+    width: 15px;
+    height: 15px;
+    font-size: 10px;
+  }
+
+  .nameApp {
+    font-size: 0.4em;
+    position: absolute;
+    margin-top: 67px;
+    margin-left: 80px;
+  }
+
+  .search {
+    padding-left: 20px;
+    padding-right: 0px;
+    margin-top: -20px;
+    height: 15px;
+    width: 70%;
+    border-radius: 10px;
+  }
+  .search_btn {
+    height: 0.5em;
+    margin-top: -1.5em;
+    width: 1em;
+    margin-left: -8em;
+  }
+
+  .search_icon {
+    /* margin-top: -10px;
+    margin-left: -110px; */
+    height: 10px;
+    width: 10px;
+  }
+
+  .b_head .ourAppStr {
+    font-size: 0.7em;
+    margin-left: 40px;
+  }
+
+  .b_app {
+    height: 400px;
+  }
+
+  .row1 {
+    margin: 20px;
+  }
+
+  .app1 {
+    padding-top: 10px;
+    width: 30%;
+    height: 100px;
+    font-size: 10px;
+  }
+
+  .app1 img {
+    margin-top: 10px;
+    width: 70%;
+    height: 70%;
+  }
+
+  .popup {
+    width: 50%;
+  }
+  .overlay {
+    height: 100%;
+  }
+}
+
+@media (min-width: 360px) {
+  .myHead {
+    height: 120px;
+    border-radius: 0 0 1em 1em;
+  }
+  .coin_logo {
+    width: 100px;
+    height: 100px;
+  }
+
+  .slogan {
+    font-size: 10px;
+    margin-top: 45px;
+    margin-left: 10px;
+  }
+
+  .allThree {
+    margin-left: 280px;
+  }
+
+  .logout {
+    padding: 0.1em;
+    border-radius: 0.2em;
+    font-size: 0.5em;
+  }
+
+  .menu {
+    padding: 0.1em;
+    font-size: 0.5em;
+    margin-top: 10px;
+    border-radius: 0.5em;
+  }
+
+  .menu_icon {
+    height: 10px;
+    width: 10px;
+  }
+  .register {
+    margin-left: 10px;
+    width: 20px;
+    height: 20px;
+  }
+  .add_icon {
+    height: 5px;
+  }
+
+  .add {
+    height: 10px;
+    width: 25px;
+    padding: 0.1em;
+    border-radius: 0.5em;
+    font-size: 0.3em;
+    margin-left: 10px;
+  }
+
+  .nameApp {
+    font-size: 0.5em;
+    position: absolute;
+    margin-top: 60px;
+    margin-left: 80px;
+  }
+  .search_btn {
+    height: 0.5em;
+    margin-top: -1.5em;
+    width: 1em;
+    margin-left: -7em;
+  }
+  .search {
+    padding-left: 30px;
+    padding-right: 0px;
+    margin-top: -20px;
+    height: 15px;
+    width: 60%;
+    border-radius: 10px;
+  }
+
+  .search_icon {
+    /* margin-top: -7px;
+    margin-left: -110px; */
+    height: 10px;
+    width: 10px;
+  }
+
+  .b_head .ourAppStr {
+    font-size: 0.7em;
+    margin-left: 40px;
+  }
+
+  .b_app {
+    height: 450px;
+    width: 80%;
+  }
+
+  .row1 {
+    margin: 20px;
+  }
+
+  .app1 {
+    padding-top: 10px;
+    width: 30%;
+    height: 100px;
+    font-size: 10px;
+  }
+
+  .app1 img {
+    margin-top: 10px;
+    width: 70%;
+    height: 70%;
+  }
+}
+
+@media (min-width: 411px) {
+  .myHead {
+    height: 150px;
+  }
+
+  .coin_logo {
+    width: 125px;
+    height: 125px;
+  }
+
+  .slogan {
+    font-size: 15px;
+    margin-top: 55px;
+    margin-left: 20px;
+  }
+
+  .allThree {
+    margin-top: 40px;
+    margin-left: 325px;
+  }
+
+  .logout {
+    font-size: 0.7em;
+  }
+
+  .menu {
+    font-size: 0.7em;
+  }
+  .add_icon {
+    height: 10px;
+  }
+
+  .add {
+    height: 15px;
+    width: 35px;
+    border-radius: 0.1em;
+    font-size: 0.7em;
+    margin-left: 10px;
+  }
+  .menu_icon {
+    height: 10px;
+    width: 10px;
+  }
+
+  .register {
+    margin-left: 10px;
+    width: 20px;
+    height: 20px;
+  }
+
+  .nameApp {
+    font-size: 0.6em;
+    margin-top: 80px;
+    margin-left: 100px;
+  }
+
+  .mySearch {
+    /* margin-right: 110px; */
+  }
+
+  .search {
+    margin-top: -10px;
+    height: 15px;
+    width: 60%;
+  }
+  .search_btn {
+    height: 1em;
+    margin-top: -0.7em;
+    width: 1em;
+    margin-left: -7em;
+  }
+  .search_icon {
+    /* margin-top: 25px;
+    margin-left: -140px; */
+  }
+
+  .b_app {
+    height: 500px;
+  }
+
+  .app1 {
+    padding-top: 30px;
+    font-size: 15px;
+  }
+
+  .app1 img {
+    width: 80%;
+    height: 80%;
+  }
+}
+
+@media (min-height: 812px) {
+  .b_app {
+    width: 90%;
+    height: 580px;
+    margin-left: 5%;
+  }
+  .app1 {
+    padding-top: 30px;
+    height: 110px;
+    font-size: 15px;
+  }
+
+  .app1 img {
+    width: 80%;
+    height: 90%;
+  }
+}
+
+@media (min-width: 768px) {
+  .myHead {
+    height: 250px;
+  }
+  .coin_logo {
+    width: 150px;
+    height: 150px;
+  }
+  .slogan {
+    font-size: 20px;
+    margin-top: 60px;
+    margin-left: 20px;
+  }
+
+  .allThree {
+    flex-direction: row;
+    margin-top: 70px;
+    margin-left: 500px;
+  }
+
+  .logout {
+    background-color: white;
+    height: 25px;
+    font-size: 20px;
+  }
+
+  .menu {
+    font-size: 0.8em;
+    border-radius: 0.5em;
+  }
+
+  .menu_icon {
+      height: 15px;
+      width: 15px;
+    }
+    .add_icon {
+      height: 15px;
+    }
+  
+    .add {
+      margin-top: 10px;
+      font-size: 20px;
+      width: 80px;
+      height: 25px;
+    }
+  .register {
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+  }
+
+  .nameApp {
+    font-size: 0.9em;
+    margin-top: 120px;
+    margin-left: 210px;
+  }
+
+  .mySearch {
+    /* margin-right: 250px; */
+  }
+  .search_btn {
+    height: 2em;
+    margin-top: 4.5em;
+    width: 2em;
+    margin-left: -15em;
+  }
+
+  .search {
+    padding-left: 40px;
+    padding-right: 40px;
+    margin-top: 60px;
+    height: 30px;
+    width: 100%;
+  }
+
+  .search_icon {
+    /* margin-top: 65px;
+    margin-left: -180px; */
+    height: 20px;
+    width: 20px;
+  }
+
+  .b_head .ourAppStr {
+    font-size: 1em;
+    margin-left: 50px;
+  }
+
+
+  .b_app {
+    height: 700px;
+  }
+
+  .app1 {
+    padding-top: 30px;
+    width: 25%;
+    height: 180px;
+    font-size: 20px;
+  }
+
+  .app1 img {
+    margin-top: 20px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .myHead {
+    height: 300px;
+    border-radius: 0 0 1em 1em;
+  }
+
+  .coin_logo {
+    width: 200px;
+    height: 200px;
+  }
+  .slogan {
+      font-size: 25px;
+      margin-top: 80px;
+      margin-left: 20px;
+    }
+    
+    .allThree {
+        margin-top: 90px;
+        margin-left: 750px;
+    }
+    
+    .logout {
+        padding: 0.2em;
+        border-radius: 0.5em;
+        font-size: 1em;
+    }
+    .add_icon {
+      height: 20px;
+    }
+  
+    .add {
+      margin-top: 10px;
+      font-size: 20px;
+      width: 80px;
+    }
+    
+  .menu {
+    font-size: 1em;
+    margin-top: 10px;
+  }
+
+  .menu_icon {
+    height: 20px;
+    width: 20px;
+  }
+  .register {
+    font-size: 20px;
+    width: 40px;
+    height: 40px;
+  }
+
+  .nameApp {
+    font-size: 1em;
+    margin-top: 140px;
+    margin-left: 325px;
+  }
+
+  /* .mySearch {
+    margin-right: 380px;
+  } */
+.search_btn{
+    margin-top: 7.5em;
+}
+
+  .search {
+    padding-left: 40px;
+    padding-right: 40px;
+    margin-top: 100px;
+    height: 30px;
+    width: 100%;
+  }
+
+  .search_icon {
+    /* margin-top: 105px;
+    margin-left: -210px; */
+    height: 20px;
+    width: 20px;
+  }
+
+  .b_head .ourAppStr {
+    font-size: 1em;
+    margin-left: 50px;
+  }
+
+
+  .b_app {
+    width: 80%;
+    height: 1000px;
+    margin-left: 10%;
+  }
+
+  .app1 {
+    padding-top: 30px;
+    width: 25%;
+    height: 250px;
+    font-size: 25px;
+  }
+
+  .app1 img {
+    margin-top: 30px;
+    width: 75%;
+    height: 75%;
+  }
+}
+
+@media (min-width: 1060px) {
+  .myHead {
+    height: 135px;
+    border-radius: 0 0 25px 25px;
+  }
+  .mainHead {
+    display: flex;
+    flex-direction: column;
+  }
+  .coin_logo {
+    width: 175px;
+    height: 175px;
+  }
+  .slogan {
+    font-size: 18px;
+    margin-top: 80px;
+    margin-left: 20px;
+  }
+
+  .allThree {
+    margin-top: 3em;
+    margin-left: 75em;
+    flex-direction: row;
+  }
+  .nameApp {
+    font-size: 1em;
+    margin-top: 2em;
+    margin-left: 35em;
+  }
+  .add {
+    border-radius: 10px;
+    margin: 10px;
+    font-size: 1em;
+    padding: 5px;
+    width: 5.5em;
+    background-color: white;
+  }
+
+  .logout {
+    padding: 5px;
+    width: 4.5em;
+    border-radius: 10px;
+    margin: 10px;
+    background-color: white;
+    font-size: 1em;
+  }
+
+  .menu {
+    padding: 5px;
+    border-radius: 10px;
+    margin: 10px;
+  }
+
+  .menu_icon {
+    height: 13px;
+    width: 20px;
+  }
+  .register {
+    width: 40px;
+    height: 40px;
+  }
+
+  .search {
+    /* position: absolute; */
+    margin-right: 1em;
+    padding-left: 4em;
+    margin-top: -2.5em;
+    height: 2em;
+    width: 100%;
+  }
+  .search_btn {
+    position: absolute;
+    background-color: white;
+    border: none;
+    height: 2em;
+    margin-top: -2.5em;
+    margin-left: -16em;
+  }
+
+  .search_icon {
+    height: 20px;
+    width: 20px;
+  }
+
+  .add_icon {
+    height: 15px;
+  }
+
+  .b_app {
+    height: 80%;
+    width: 80%;
+  }
+
+  .row1 {
+    margin: 40px;
+  }
+
+  .app1 {
+    padding-top: 20px;
+    width: 130px;
+    font-size: 20px;
+    height: 150px;
+  }
+  .app1 img {
+    width: 70%;
+    height: 70%;
+  }
+
+  .close-modal {
+    position: absolute;
+    top: 1.2rem;
+    right: 2rem;
+    font-size: 1.5rem;
+    color: #333;
+    cursor: pointer;
+    border: none;
+    background-color: none;
+  }
+
+  .popup {
+    width: 15%;
+    height: 50%;
+  }
+  .overlay {
+    height: 140%;
+  }
+}
