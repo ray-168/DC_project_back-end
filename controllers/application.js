@@ -1,5 +1,6 @@
 const {response} = require('../common/response');
 const {User, Session, Application} = require('../db/models');
+const {originalImgName} = require('../common/upload_appImage');
 
 module.exports = {
 
@@ -10,7 +11,7 @@ module.exports = {
         try{
             // GET ONLY APPROVAL APPLICATION
             const app = await Application.findAll({where:{isApprove:true}});
-            return res.status(200).send(response(app))
+            return res.status(200).send(response("successful get all approve app",app))
         }catch(err){
             console.log(err.message);
      
@@ -22,9 +23,12 @@ module.exports = {
     async createApllication (req ,res){
         try{
             // check require field
-            const {appName,appUrl,description,appImage} = req.body;
+            const {appName,appUrl,description} = req.body;
+
             const userId  = req.user.id;
- 
+            // check upload image feild
+            const appImage = req.file;
+
             if (!appName){
                 return res.status(400).send(response('application name is require'));
             }
@@ -37,14 +41,18 @@ module.exports = {
             if (!appImage){
                 return res.status(400).send(response('application image is require'));
             }
-            // CHECK IF APPLICATION IS ALREADY EXIST IN DB
+            if (appImage.size > 5 * 1000 * 1000) {
+                return res.status(400).send(response('File to large, Please upload avatar image fileSize less than or equal to 5MB'));
+            }
+            // get app image path in server
+            const imagePath = `/appImage/userId_${userId}/${originalImgName}`; 
 
             const app = await Application.create({
                 userId:userId,
                 appName:appName,
                 appUrl:appUrl,
                 description:description,
-                appImage:appImage,
+                appImage:imagePath,
                 isApprove:false,
             })
             return res.status(200).send(response('successfull post new application. please wait for an approval',{
@@ -79,11 +87,11 @@ module.exports = {
                 return res.status(400).send(response('Please upload an image file'));
             }
             // limit file size
-            if (profile.size > 5 * 1000 * 1000) {
+            if (appImage.size > 5 * 1000 * 1000) {
                 return res.status(400).send(response('File to large, Please upload avatar image fileSize less than or equal to 5MB'));
             }
 
-            // get Avatar path in server
+            // get app image path in server
             const imagePath = `/appImage/userId_${userId}/${originalProfileName}`;
             console.log(req.file)
             if (profilePath) {

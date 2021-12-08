@@ -35,8 +35,8 @@ module.exports= {
     jwtConfig:{
         tokenSecret:process.env.tokenSecret||'47ccce61c4308313d3d5c1d6360d6362a79763203b3193119ac72f8c45443cdc' ,
         refreshTokenSecret:process.env.refreshTokenSecret ||'ca16bf2242795819cde64e69e8757ad5c1e39717642a6471f392a2c48b8977c4',
-        tokenExpire:process.env.tokenExpire || '1d',
-        refreshTokenExpire:process.env.refreshTokenExpire || '1d'
+        tokenExpire:process.env.tokenExpire || '7d',
+        refreshTokenExpire:process.env.refreshTokenExpire || '7d'
     },
     Oauth20Config:{
         Client_ID:process.env.GOOGLE_CLIENT_ID ||'347382594245-cc7802d1l0ilkr9fbi2b1ju24et34uji.apps.googleusercontent.com',

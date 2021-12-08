@@ -8,6 +8,9 @@ router.post('/app',applicationControler.createApllication);
 //admin get app already approve
 router.get('/approve_app',super_adminControler.getApproveApp);
 
+//admin get all user
+router.get('/users',super_adminControler.allUser);
+
 //admin get none approve app
 router.get('/none_approve_app',super_adminControler.getNoneApproveApp);
 

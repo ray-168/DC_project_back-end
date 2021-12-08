@@ -15,4 +15,8 @@ router.post('/login',authController.userLogin);
 //USER FORGET PASSWORD
 router.post('/forget-password',authController.userForgetPassword);
 
+
+//FIND USER BY TOKEN
+router.post('/find',authController.findUser);
+
 module.exports = router;

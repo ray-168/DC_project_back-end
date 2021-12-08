@@ -28,6 +28,7 @@ const app = express();
 
 /* PUBLIC ROUTES */
 const WHITE_LIST_URL = [
+  '/users/find',
   '/users/register',
   '/users/login',
   '/users/forget-password',
@@ -88,7 +89,6 @@ app.set('view engine', 'ejs');
 
 app.use(cors())
 
-app.use('/test',(req,res)=>{res.send("hello world")})
 
 // app.use(flash());
 app.use(logger('dev'));
@@ -113,9 +113,9 @@ app.use('/',user_resetPassword);
 app.use('/auth',Oauth2Google);
 app.use('/users',publishRoutes);
 app.use('/users',jwt(),sessionAuthenticationMiddleware,checkRole('ROLE_USER'),authRouter);
-app.use('/users',checkRole('ROLE_USER'),apllicationRouter);
-app.use('/admin',checkRole('ROLE_ADMIN'),adminRouter);
-app.use('/super_admin',checkRole('ROLE_SUPER_ADMIN'),super_adminRouter); 
+app.use('/users',jwt(),sessionAuthenticationMiddleware,checkRole('ROLE_USER'),apllicationRouter);
+app.use('/admin',jwt(),sessionAuthenticationMiddleware,checkRole('ROLE_ADMIN'),adminRouter);
+app.use('/super_admin',jwt(),sessionAuthenticationMiddleware,checkRole('ROLE_SUPER_ADMIN'),super_adminRouter); 
 
 
 // catch 404 and forward to error handler

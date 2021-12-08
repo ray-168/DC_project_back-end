@@ -1,12 +1,19 @@
-const {Application,User,Session} = require('../db/models');
+const {Application,User,Session, Sequelize} = require('../db/models');
 const {response} = require('../common/response')
 const {getAdminRole,getUserRole} = require('../common/util');
+
+const Op = Sequelize.Op;
 module.exports = {
     // get all app that have been approve
     async getApproveApp (req ,res) {
         try{
             // GET ONLY APPROVAL APPLICATION
-            const app = await Application.findAll({where:{isApprove:true}});
+            const app = await Application.findAll({where:{isApprove:true},
+                include:{
+                    model:User,
+                    as:'user'
+                }
+            });
             return res.status(200).send(response('success get application',app))
         }catch(err){
             console.log(err.message);
@@ -17,7 +24,12 @@ module.exports = {
     async getNoneApproveApp (req ,res) {
         try{
             // GET ONLY APPROVAL APPLICATION
-            const app = await Application.findAll({where:{isApprove:false}});
+            const app = await Application.findAll({where:{isApprove:false},
+                include:{
+                    model:User,
+                    as:'user'
+                }
+            });
             return res.status(200).send(response('success get application',app))
         }catch(err){
             console.log(err.message);
@@ -36,7 +48,7 @@ module.exports = {
             if (app.isApprove){
                 return res.status(400).send(response('app already approve'))
             }
-            const updateApp = await Application.update({isApprove:true},{where:{id:app.id}});
+            await Application.update({isApprove:true},{where:{id:app.id}});
             return res.status(200).send(response('successful approve app'));
         }   
         catch(err){
@@ -177,5 +189,25 @@ module.exports = {
             console.log(err.message);
             return res.status(500).send(response('fail to change user role')); 
         }
-    }
+    },
+    // all user 
+    async allUser(req,res){
+        try{
+            const userId = req.user.id;
+            const allUsers = await User.findAll({
+                where:{
+                    id:{
+                        [Op.ne]:userId
+                        
+                    }
+                }
+            });
+            return res.status(200).send(response('successful change user role',allUsers))
+
+        }
+        catch(err){
+            console.log(err.message);
+            return res.status(500).send(response('fail to get all user')); 
+        }
+    } 
 }

@@ -12,7 +12,7 @@ const {uploadProfileFile} = require('../common/upload_profile');
 router.post('/logout',authController.userLogout);
 
 //USER CHANGE PASSWORD
-router.post('/changePassword',authController.userChangePassword);
+router.put('/changePassword',authController.userChangePassword);
 
 //USER UPLOAD PROFILE
 router.post('/upload_profile',uploadProfileFile.single('profile'),authController.userUploadProfile);

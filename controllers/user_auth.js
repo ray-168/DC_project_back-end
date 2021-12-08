@@ -81,6 +81,11 @@ module.exports = {
             //user input information field
             const {username , email , password , confirmPassword} = req.body;
             
+            if (!username){
+                return res.status(400).send(response('username is require!'));
+                // req.flash("message","username is require")
+                // return res.status(400).redirect('/users/register')
+            } 
             if(!email){
                 return res.status(400).send(response('email is require!'));
                 
@@ -96,11 +101,7 @@ module.exports = {
                 // return res.status(400).redirect('/users/register')
             }
 
-            if (!username){
-                return res.status(400).send(response('username is require!'));
-                // req.flash("message","username is require")
-                // return res.status(400).redirect('/users/register')
-            } 
+           
             if(!password){
                 return res.status(400).send(response('password is require!'));
                 // req.flash("message","password is require")
@@ -151,7 +152,7 @@ module.exports = {
             sendEmailVerification(req, registerUser); 
         
 
-            return res.status(200).send(response('Register successful!! please verify with your email',{
+            return res.status(200).send(response('Register successful!! please verify your email before login',{
                 id:registerUser.id,
                 username:registerUser.username,
                 email:registerUser.email,
@@ -230,15 +231,14 @@ module.exports = {
 
             const user = await User.findOne({ where: { email: email } });
             if (!user) {
-                return res.status(401).send(response('Invalid Email or Password'));
+                return res.status(400).send(response('Invalid Email or Password'));
                 // req.flash('message',"Email not register yet. You can sign in with google below")
                 // return res.redirect('/users/login');
             } else {
                 //check email confirmation
-                console.log(user.isConfirm)
                 if (!user.isConfirm) {
                     sendEmailVerification(req, user);
-                    return res.status(401).send(response('Please check and verify your email before login'));
+                    return res.status(400).send(response('Please check and verify your email before login'));
                     // req.flash('message',"please check and verify your email before login!!")
                     // return res.redirect('/users/login');
                 }
@@ -246,7 +246,7 @@ module.exports = {
                 //compare passwords
                 const passwordCompare = await bcrypt.compare(password, user.password);
                 if (!passwordCompare) {
-                    return res.status(401).send(response('Invalid Email or Password!'));
+                    return res.status(400).send(response('Invalid Email or Password!'));
                     // req.flash('message',"Invalid Email or password")
                     // return res.redirect('/users/login');
                 }
@@ -278,7 +278,8 @@ module.exports = {
                     userId: user.id,
                     token: token,
                     refreshToken: refresh,
-                    isConfirm: user.isConfirm
+                    isConfirm: user.isConfirm,
+                    role:user.role
                 }));
                 // res.redirect('/users/app');
             }
@@ -371,6 +372,10 @@ module.exports = {
             if (!newPassword){
                 return res.status(400).send(response('your new password if require!!'));
             }
+            if(!passwordValidation(newPassword)){
+                return res.status(400).send(response('your password should contain at least one upper case, one lower case , one number and length between 8 to 20 characters'));
+    
+            }
             if (!confirmPassword){
                 return res.status(400).send(response('your confirm password if require!!'));
             }
@@ -386,7 +391,7 @@ module.exports = {
 
             const comparePassword = await bcrypt.compare(currentPassword,user.password);
             if (!comparePassword){
-                return res.status(400).send(response('your cuurent password not match!'));
+                return res.status(400).send(response('your cuurent password not correct!'));
             }
 
             // hash new password
@@ -533,7 +538,7 @@ module.exports = {
             const userId = req.user.id;
             const user = await User.findByPk(userId,{attributes:{exclude:['password']}});
             if (!user){
-                return res.status(400).send(response('user not found'));
+                return res.status(404).send(response('user not found'));
             }
 
             return res.status(200).send(response('Success to get your profile', user));
@@ -550,11 +555,13 @@ module.exports = {
             });
 
             if (!user) {
-                return res.status(404).send(response('Profile user not found'));
+                return res.status(404).send(response(' user not found'));
             }
             // required fields for update
             const { username, profile } = req.body;
-
+            if(!username){
+                return res.status(400).send(response(' user name can not empty'));
+            }
             // console.log("profile", profile)
             if (username) { user.username = username };
             if (profile) { user.profile = profile };
@@ -562,14 +569,35 @@ module.exports = {
             // update user
             await User.update(user.dataValues, { where: { id: req.user.id } });
 
-            return res.status(200).send(response('Your profile was updated successfully', user));
+            return res.status(200).send(response('successfully updated', user));
         }
         catch (err) {
             console.log(err.message);
             return res.status(500).send(response('Failed to update your profile'))
         }
     },
-    /* USER LOGOUT */
+
+    // FIND USER BY TOKEN
+    async findUser(req,res){
+        try{
+            const {token} = req.body;
+            if (!token){
+                return res.status(400).send(response('token is require'));
+            }
+            const session = await Session.findOne({where:{accessToken:token},
+                include:{ 
+                    model:User,
+                    as:'user' 
+            }})
+            return res.status(200).send(response('successful find user',session.user.dataValues));
+            // console.log(session.user.dataValues) 
+        }
+        catch(err){
+            console.log(err.message);
+            return res.status(500).send(response('fail to find user'));
+        }
+    },
+    /* USER LOGOUT */ 
     async userLogout(req, res) {
         try {
             // update token in session table after logout
