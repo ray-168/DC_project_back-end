@@ -14,12 +14,10 @@ router.post('/logout',authController.userLogout);
 //USER CHANGE PASSWORD
 router.put('/changePassword',authController.userChangePassword);
 
-//USER UPLOAD PROFILE
-router.post('/upload_profile',uploadProfileFile.single('profile'),authController.userUploadProfile);
-
 //USER GET PROFILE 
 router.get('/profile',authController.userGetProfile);
 
 //USER UPDATE PROFILE INFORMATION
-router.put('/profile',authController.userUpdateProfile);
+router.put('/profile',uploadProfileFile.single('profile'),authController.userUpdateProfile);
+
 module.exports = router;

@@ -12,7 +12,7 @@ router.get('/google', passport.authenticate('google',{ scope:['profile','email']
 //REDIRECT USER TO HOME PAGE
 
 router.get('/google/callback', 
-  passport.authenticate('google', { failureRedirect: '/google' , successRedirect:'/users/app'}) 
+  passport.authenticate('google', { failureRedirect: '/google' , successRedirect:'http://127.0.0.1:5500/DC_project_front-end/login.html'}) 
 )
 
 module.exports = router;

@@ -1,7 +1,7 @@
 const {Application,User,Session, Sequelize} = require('../db/models');
 const {response} = require('../common/response')
 const {getAdminRole,getUserRole} = require('../common/util');
-
+const {originalImgName} = require('../common/upload_appImage')
 const Op = Sequelize.Op;
 module.exports = {
     // get all app that have been approve
@@ -60,7 +60,7 @@ module.exports = {
     async denyApp(req,res){
         try{
             const appId = req.params.id;
-            const app = await User.findByPk(appId);
+            const app = await Application.findByPk(appId);
             if (!app){
                 return res.status(400).send(response('app not found'));
             }
@@ -68,7 +68,7 @@ module.exports = {
                 return res.status(500).send(response('app already approved. you can not deny'));
             }
             const denyApp = await Application.destroy({where:{id:app.id,isApprove:false}});
-            return res.status(200).send(response('successfull deny app',denyApp));
+            return res.status(200).send(response('Request have been deny',denyApp));
 
         }catch(err){
             console.log(err.message);
@@ -96,19 +96,30 @@ module.exports = {
     async editApp(req,res){
         try{
             const appId = req.params.id;
+            const userId = req.user.id
             // check if app not avilable in db
             const app = await Application.findByPk(appId);
             // require feild 
-            const {appName , appImage , appUrl, description } = req.body;
+            
+            const {appName , appUrl, description } = req.body;
+            const appImage = req.file;
+            // console.log(appName,appImage)
+            if (!appImage) {
+                return res.status(400).send(response('Please upload an image file'));
+            }
+            if (appImage.size > 5 * 1000 * 1000) {
+                return res.status(400).send(response('File to large, Please upload avatar image fileSize less than or equal to 5MB'));
+            }
             if (!app){
                 return res.status(400).send(response('app not found'));
             }
             if(!app.isApprove){
                 return res.status(400).send(response('app did not approve yet. you must go and approve it first before edit'));
             }
+            const imagePath = req.protocol + '://' + req.get('host') + `/appImage/userId${userId}/${originalImgName}`; 
             await Application.update({
                 appName:appName,
-                appImage:appImage,
+                appImage:imagePath,
                 appUrl:appUrl,
                 description:description
             },{where:{
@@ -171,7 +182,7 @@ module.exports = {
                     id:user.session.id
                 }
             })
-            return res.status(200).send(response('successful change user role',{
+            return res.status(200).send(response(`successful change user to role ${role}`,{
                 id:user.id,
                 username:user.username,
                 email:user.email,

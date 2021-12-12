@@ -251,37 +251,49 @@ module.exports = {
                     // return res.redirect('/users/login');
                 }
 
-                // issue token
-                const payload = {
-                    id: user.id,
-                    email: user.email,
-                    role: user.role
-                }
-                const token = jwt.sign(payload, jwtConfig.tokenSecret, { expiresIn: jwtConfig.tokenExpire });
-                const refresh = jwt.sign(payload, jwtConfig.refreshTokenSecret, { expiresIn: jwtConfig.refreshTokenExpire });
-
-                // update token in session table
-                // this is used for one device login per session
                 const session = await Session.findOne({ where: { userId: user.id } });
+
+                if (session.dataValues.accessToken){
+                     // response success login
+                    return res.status(200).send(response('Login successfully', {
+                        userId: user.id,
+                        token: session.dataValues.accessToken,
+                        refreshToken: session.dataValues.refreshToken,
+                        isConfirm: user.isConfirm, 
+                        role:user.role
+                    }));
+                }
+
+                if(!session.dataValues.accessToken){
+                     // issue token
+                    const payload = {
+                        id: user.id,
+                        email: user.email,
+                        role: user.role
+                    }
+                    const token = jwt.sign(payload, jwtConfig.tokenSecret, { expiresIn: jwtConfig.tokenExpire });
+                    const refresh = jwt.sign(payload, jwtConfig.refreshTokenSecret, { expiresIn: jwtConfig.refreshTokenExpire });
+                    
+                    await Session.update({
+                        accessToken: token,
+                        refreshToken: refresh
+                    }, { where: { userId: user.id } });
+    
+                    // response success login
+                    return res.status(200).send(response('Login successfully', {
+                        userId: user.id,
+                        token: token,
+                        refreshToken: refresh,
+                        isConfirm: user.isConfirm,
+                        role:user.role
+                    }));
+                
+                } 
+               
                 if (!session) {
                     return res.status(400).send(response('Login failed'));
-                    // req.flash('message',"Login failded. please try again!")
-                    // return res.redirect('/users/login');
                 }
-                await Session.update({
-                    accessToken: token,
-                    refreshToken: refresh
-                }, { where: { userId: user.id } });
-
-                // response success login
-                return res.status(200).send(response('Login successfully', {
-                    userId: user.id,
-                    token: token,
-                    refreshToken: refresh,
-                    isConfirm: user.isConfirm,
-                    role:user.role
-                }));
-                // res.redirect('/users/app');
+                
             }
         } catch (err) {
             console.log(err.message);
@@ -497,42 +509,9 @@ module.exports = {
             return res.status(500).send(response('Failed to reset password'));
         }
     },
-    /* USER UPLOAD AVATAR */
-    userUploadProfile: async (req, res) => {
-        try {
-            // req userId from token
-            const userId = req.user.id;
-
-            const user = await User.findByPk(userId);
-
-            // avatar file image to upload
-            const profile = req.file;
-            if (!profile) {
-                return res.status(400).send(response('Please upload an image file'));
-            }
-            // limit file size
-            if (profile.size > 5 * 1000 * 1000) {
-                return res.status(400).send(response('File to large, Please upload avatar image fileSize less than or equal to 5MB'));
-            }
-
-            // get Avatar path in server
-            const profilePath = `/userprofile/userId_${userId}/${originalProfileName}`;
-            console.log(req.file)
-            if (profilePath) {
-                user.profile = profilePath;
-            }
-            console.log(user.profile);
-            await User.update(user.dataValues, { where: { id: userId } });
-
-            return res.status(200).send(response('Upload avatar successfully', profilePath));
-
-        } catch (err) {
-            console.log(err.message);
-            return res.status(500).send(response('Failed to upload profile'));
-        }
-    },
+    
     // USER GET PROFILE
-    async userGetProfile(req,res){
+     userGetProfile:async (req,res)=>{
         try{
             //get user id from token
             const userId = req.user.id;
@@ -548,9 +527,10 @@ module.exports = {
         }
     },
     // USER UPDATE PROFILE
-    async userUpdateProfile (req, res)  {
+     userUpdateProfile:async (req, res) => {
         try {
-            const user = await User.findByPk(req.user.id, {
+            const userId = req.user.id;
+            const user = await User.findByPk(userId, {
                 attributes: { exclude: ['password', 'role'] }
             });
 
@@ -558,16 +538,28 @@ module.exports = {
                 return res.status(404).send(response(' user not found'));
             }
             // required fields for update
-            const { username, profile } = req.body;
+            const { username } = req.body;
+            const profile = req.file;
+
+            if (!profile) {
+                return res.status(400).send(response('Please upload an image file'));
+            }
+            // limit file size
+            if (profile.size > 5 * 1000 * 1000) {
+                return res.status(400).send(response('File to large, Please upload avatar image fileSize less than or equal to 5MB'));
+            }
             if(!username){
                 return res.status(400).send(response(' user name can not empty'));
             }
+
+            const profilePath = req.protocol + '://' + req.get('host') + `/userprofile/userId${userId}/${originalProfileName}`;
+  
             // console.log("profile", profile)
             if (username) { user.username = username };
-            if (profile) { user.profile = profile };
+            if (profile) {user.profile = profilePath}
 
             // update user
-            await User.update(user.dataValues, { where: { id: req.user.id } });
+            await User.update(user.dataValues, { where: { id:userId} });
 
             return res.status(200).send(response('successfully updated', user));
         }
@@ -613,4 +605,6 @@ module.exports = {
             return res.status(500).send(response('Logout failed'));
         }
     },
+
+
 }

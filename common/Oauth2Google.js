@@ -95,8 +95,10 @@ passport.use(new GoogleStrategy({
           refreshToken:refreshToken
         },{where:{
           id:createUser.session.id
-        }})
-        return done(null,createUser);
+        }})  
+
+        done(null,createUser);
+        return await Session.findOne({where:{id:createUser.session.id}})
       }
     }
     catch(err){

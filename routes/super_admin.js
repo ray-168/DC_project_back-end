@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const super_adminControler = require('../controllers/super_admin');
 const applicationControler  =require('../controllers/application');
-
+const {uploadImageFile} = require('../common/upload_appImage');
 //admin create app
 router.post('/app',applicationControler.createApllication);
 
@@ -24,7 +24,7 @@ router.delete('/deny_app/:id',super_adminControler.denyApp);
 router.delete('/delete_app/:id',super_adminControler.deleteApp);
 
 //super admin edit app
-router.put('/edit_app/:id',super_adminControler.editApp);
+router.put('/edit_app/:id',uploadImageFile.single('appImage'),super_adminControler.editApp);
 
 //super admin change role 
 router.put('/role/:id',super_adminControler.changeRole);
