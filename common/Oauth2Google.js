@@ -41,24 +41,32 @@ passport.use(new GoogleStrategy({
       // check if user already sign in before no need to create again
       if (user){
         if (!user.session.accessToken){
-        // generate new accesstoken and refreshToken for already exist user sign in from google
-        const payload ={
-          id:user.id,
-          email:user.email,
-          role:user.role
+            // generate new accesstoken and refreshToken for already exist user sign in from google
+            const payload ={
+              id:user.id,
+              email:user.email,
+              role:user.role
+            }
+            const accessToken = jwt.sign(payload,jwtConfig.tokenSecret,{expiresIn:jwtConfig.tokenExpire});
+            const refreshToken = jwt.sign(payload,jwtConfig.refreshTokenSecret,{expiresIn:jwtConfig.refreshTokenExpire});
+
+            // update user again with token and user id 
+            await Session.update({ 
+              accessToken:accessToken,
+              refreshToken:refreshToken
+            },{where:{
+              id:user.session.id
+            }})
+            const users = await User.findOne( { 
+              where:{id:user.id}
+              ,include:{
+              model:Session,
+              as:'session'
+              }
+            })
+          return done(null,users);
         }
-        const accessToken = jwt.sign(payload,jwtConfig.tokenSecret,{expiresIn:jwtConfig.tokenExpire});
-        const refreshToken = jwt.sign(payload,jwtConfig.refreshTokenSecret,{expiresIn:jwtConfig.refreshTokenExpire});
-        
-        // update user again with token and user id 
-        await Session.update({ 
-          accessToken:accessToken,
-          refreshToken:refreshToken
-        },{where:{
-          id:user.session.id
-        }})
-        }
-        return done(null,user); 
+        return done(null,user);
       }
       //if user not create yet 
       else{
@@ -96,13 +104,19 @@ passport.use(new GoogleStrategy({
         },{where:{
           id:createUser.session.id
         }})  
-
-        done(null,createUser);
-        return await Session.findOne({where:{id:createUser.session.id}})
+        
+        const user = await User.findOne( { 
+          where:{id:createUser.id}
+          ,include:{
+          model:Session,
+          as:'session'
+          }
+        })
+        return done(null,user);
       }
     }
     catch(err){
       console.log(err.message);
     } 
   }
-));
+)); 

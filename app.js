@@ -5,6 +5,7 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require('cors');
+const passport = require('passport')
 const expressJwt = require('express-jwt');
 const session = require('express-session');
 const { jwtConfig } = require('./config/config');
@@ -89,7 +90,7 @@ app.set('view engine', 'ejs');
 
 app.use(cors())
 
-
+app.use(passport.initialize());
 // app.use(flash());
 app.use(logger('dev'));
 app.use(express.json());

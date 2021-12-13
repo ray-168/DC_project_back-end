@@ -242,6 +242,9 @@ module.exports = {
                     // req.flash('message',"please check and verify your email before login!!")
                     // return res.redirect('/users/login');
                 }
+                if (!user.password){
+                    return res.status(400).send(response('Your emai have been sign with google!!Please sign with your google acc'));
+                }
 
                 //compare passwords
                 const passwordCompare = await bcrypt.compare(password, user.password);
@@ -456,7 +459,7 @@ module.exports = {
             if (!token) {
                 return res.status(400).send(response('No authorization token was found'));
             }
-            console.log(`Bearer Token: ${token}`);
+            
 
             // verify token
             const userPayload = jwt.verify(token, mailConfig.appResetPassswordTokenSecret, (err, payload) => {
