@@ -1,8 +1,6 @@
 require('dotenv').config();
 const nodemailer = require('nodemailer');
 const { mailConfig } = require ('../config/config');
-const hbs = require('nodemailer-express-handlebars');
-const ejs = require('ejs');
 const sendMail = (emailSubject , toEmail , html) =>{
     const transpot = nodemailer.createTransport({
         service: 'Gmail',
