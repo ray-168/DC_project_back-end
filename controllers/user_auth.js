@@ -26,13 +26,13 @@ const sendEmailVerification = async function(req , registerUser){
     // const link = `${req.protocol}://localhost:3000/verification/${registerToken}`;
     const  link = req.protocol + '://' + req.get('host') + '/verification' +`/${registerToken}`;
     
-    const htmlText = `<h3>Hello ${payload.email}, welcome to Data center 2.0!</h3><br />
-    <h2>Please, verify your email</h2><br/><br/>
+    const html = `<h3>Hello ${payload.email}, welcome to Data center 2.0!</h3><br />
+    <p style="margin: 0;">We're excited to have you get started. First, you need to confirm your account. Just press the button below.</p><br/><br/>
     <a href="${link}">verify now!</a>`;
     const emailSubject = 'Email Verificatication';
 
     try{
-        await sendMail(emailSubject, payload.email, htmlText);
+        await sendMail(emailSubject, payload.email, html);
         console.log(`success send email to ${payload.email}`);
         console.log(`token ${registerToken}`);
     }
@@ -51,17 +51,18 @@ const sendEmailResetPassword = async function(req , user){
 
     const resetPasswordToken = jwt.sign(payload, mailConfig.appResetPassswordTokenSecret, {expiresIn:'30m'});
     // const link = `${req.protocal}://${url.urlClient}/verification/${registerToken}`;
-    // const link = 'https://www.w3schools.com/tags/att_a_href.asp'
-    const link = req.protocol + '://' + req.get('host') + '/reset-password' + `/${resetPasswordToken}`;
+
+    const link = process.env.CLIENT_RESETPASSWORD+`?${resetPasswordToken}`;
     
     // const link = `https://localhost:3000/reset-password/${resetPasswordToken}`;
-    const htmlText = `<h3>Hello ${payload.email}, welcome to Data center 2.0!</h3><br/>
-    <h2>Please, reset your though this link</h2><br/><br/>
-    <a href="${link}">reset your password Now!</a>`;
-    const emailSubject = 'Reset';
+    const html = `<h3>Hello ${payload.email}, welcome to Data center 2.0!</h3><br/>
+    <p style="margin: 0;">We're excited to have you get started.We're here to help your problem.Click the button below to reset your password</p><br/><br/>
+    <a href="${link}" style="font-size:'large';" >reset your password Now!</a>`;
+    
+    const emailSubject = 'ResetPasssword';
 
     try{
-        await sendMail(emailSubject, payload.email, htmlText);
+        await sendMail(emailSubject, payload.email,html);
         console.log(`success send email to ${payload.email}`);
         // console.log(`token ${registerToken}`);
     }
@@ -378,50 +379,69 @@ module.exports = {
 
     //USER CHANGE PASSWORD
     userChangePassword: async (req,res)=>{
-        try{
-            const {currentPassword,newPassword,confirmPassword} = req.body;
-            // check input field
-            if (!currentPassword){
-                return res.status(400).send(response('your current password if require!!'));
-            }
-            if (!newPassword){
-                return res.status(400).send(response('your new password if require!!'));
-            }
-            if(!passwordValidation(newPassword)){
-                return res.status(400).send(response('your password should contain at least one upper case, one lower case , one number and length between 8 to 20 characters'));
-    
-            }
-            if (!confirmPassword){
-                return res.status(400).send(response('your confirm password if require!!'));
-            }
-
-            //find user by id through user id from payload
+        try {
+            // params user id from user token
             const userId = req.user.id;
+
             const user = await User.findByPk(userId);
-            if (!user){
-                return res.status(400).send(response('user not found!'));
+
+            if (!user) {
+                return res.status(404).send(response('User not found'));
             }
 
-            // compare current password with user.id password
+            // Check required fields
+            const { currentPassword, newPassword, confirmPassword } = req.body;
 
-            const comparePassword = await bcrypt.compare(currentPassword,user.password);
-            if (!comparePassword){
-                return res.status(400).send(response('your cuurent password not correct!'));
+            if (!currentPassword) {
+                return res.status(400).send(response('Current Password is required'));
+            }
+            if (!newPassword) {
+                return res.status(400).send(response('New Password is required'));
+            }
+            if (!confirmPassword) {
+                return res.status(400).send(response('Confirm New Password is required'));
             }
 
-            // hash new password
-            const hashPassword = await bcrypt.hash(newPassword, await bcrypt.genSalt(15));
-            await User.update({
-                password:hashPassword
-            },{     
-                where:{id:user.id}
-            })
-            return res.status(200).send(response('successfull update password!'));
+            //compare currentPassword with user.password in DB
+            const currentPasswordCompare = await bcrypt.compare(currentPassword, user.password);
+            if (!currentPasswordCompare) {
+                return res.status(400).send(response('Input wrong current password'));
+            }
+
+            if (!passwordValidation(newPassword)) {
+                return res.status(400).send(response('password should contains at least one numeric digit, one uppercase and one lowercase letter between 8 to 20 characters'));
+            }
+
+            // Compare New Password with Confirm New Password
+            if (!(newPassword === confirmPassword)) {
+                return res.status(400).send(response('New password and Confirm New Password not matched'));
+            }
+
+            //compare newPassword with user.password in DB
+            const newPasswordCompare = await bcrypt.compare(newPassword, user.password);
+            if (newPasswordCompare) {
+                return res.status(400).send(response('Your new password and current password are the same! Please input another new password'));
+            }
+
+            // Generate Hash new password
+            const salt = await bcrypt.genSalt(12);
+            const hashNewPassword = await bcrypt.hash(newPassword, salt);
+
+            // assign hashNewPassword into user.password in DB
+            if (hashNewPassword) {
+                user.password = hashNewPassword;
+            }
+
+            // update or change user password
+            await User.update(user.dataValues, { where: { id: userId } });
+
+            return res.status(200).send(response('Your password has been changed successfully'));
         }
-        catch(err){
+        catch (err) {
             console.log(err.message);
-            return res.status(500).send(response('fail to change password'));
+            return res.status(500).send(response("Failed to change password"));
         }
+
     },
     //USER FORGET PASSWORD
     async userForgetPassword(req,res){
@@ -455,7 +475,7 @@ module.exports = {
             // Take token from Header Bearer token or client side
             // Middleware Authentication
             // const token = req.headers['authorization'].split(' ')[1]
-            const token = req.params.token;
+            const token = req.headers['authorization'].split(' ')[1]
             if (!token) {
                 return res.status(400).send(response('No authorization token was found'));
             }
@@ -463,7 +483,6 @@ module.exports = {
 
             // verify token
             const userPayload = jwt.verify(token, mailConfig.appResetPassswordTokenSecret, (err, payload) => {
-                console.log(payload);
                 if (err) {
                     return res.status(400).send(response('No authorization token was found, Failed to reset password'));
                 }
@@ -478,7 +497,11 @@ module.exports = {
             if (!confirmPassword) {
                 return res.status(400).send(response('Confirm New Password is required!'));
             }
-
+            if(!passwordValidation(newPassword)){
+                return res.status(400).send(response('your password should contain at least one upper case, one lower case , one number and length between 8 to 20 characters'));
+                // req.flash("message","your password should contain at least one upper case, one lower case , one number and length between 8 to 20 characters")
+                // return res.status(400).redirect('/users/register')
+            }
             if (newPassword !== confirmPassword) {
                 return res.status(400).send(response('New Password and Confirm Password not matched'));
             }
@@ -543,19 +566,19 @@ module.exports = {
             // required fields for update
             const { username } = req.body;
             const profile = req.file;
+            const profilePath = req.protocol + '://' + req.get('host') + `/userprofile/userId${userId}/${originalProfileName}`;
 
-            if (!profile) {
-                return res.status(400).send(response('Please upload an image file'));
+            if (profile) {
+                if (profile.size > 5 * 1000 * 1000) {
+                    return res.status(400).send(response('File to large, Please upload avatar image fileSize less than or equal to 5MB'));
+                }else{
+                    user.profile=profilePath
+                }
             }
             // limit file size
-            if (profile.size > 5 * 1000 * 1000) {
-                return res.status(400).send(response('File to large, Please upload avatar image fileSize less than or equal to 5MB'));
-            }
-            if(!username){
-                return res.status(400).send(response(' user name can not empty'));
-            }
+            
+            
 
-            const profilePath = req.protocol + '://' + req.get('host') + `/userprofile/userId${userId}/${originalProfileName}`;
   
             // console.log("profile", profile)
             if (username) { user.username = username };

@@ -10,7 +10,7 @@ module.exports = {
     async getApplication (req ,res) {
         try{
             // GET ONLY APPROVAL APPLICATION
-            const app = await Application.findAll({where:{isApprove:true}});
+            const app = await Application.findAll({where:{isApprove:true},oder:['createAt','DESC']});
             return res.status(200).send(response("successful get all approve app",app))
         }catch(err){
             console.log(err.message);

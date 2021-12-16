@@ -12,7 +12,8 @@ module.exports = {
                 include:{
                     model:User,
                     as:'user'
-                }
+                },order:[['createdAt','DESC']]
+                
             });
             return res.status(200).send(response('success get application',app))
         }catch(err){
@@ -28,7 +29,7 @@ module.exports = {
                 include:{
                     model:User,
                     as:'user'
-                }
+                },order:[['createdAt','DESC']]
             });
             return res.status(200).send(response('success get application',app))
         }catch(err){
@@ -104,12 +105,7 @@ module.exports = {
             const {appName , appUrl, description } = req.body;
             const appImage = req.file;
             // console.log(appName,appImage)
-            if (!appImage) {
-                return res.status(400).send(response('Please upload an image file'));
-            }
-            if (appImage.size > 5 * 1000 * 1000) {
-                return res.status(400).send(response('File to large, Please upload avatar image fileSize less than or equal to 5MB'));
-            }
+            
             if (!app){
                 return res.status(400).send(response('app not found'));
             }
@@ -117,12 +113,24 @@ module.exports = {
                 return res.status(400).send(response('app did not approve yet. you must go and approve it first before edit'));
             }
             const imagePath = req.protocol + '://' + req.get('host') + `/appImage/userId${userId}/${originalImgName}`; 
-            await Application.update({
-                appName:appName,
-                appImage:imagePath,
-                appUrl:appUrl,
-                description:description
-            },{where:{
+            if(appImage){
+                if (appImage.size > 5 * 100 * 100) {
+                    return res.status(400).send(response('File to large, Please upload avatar image fileSize less than or equal to 5MB'));
+                }
+                else{
+                    app.appImage=imagePath
+                }
+            }
+            if(appName){
+                app.appName=appName
+            }
+            if(appUrl){
+                app.appUrl=appUrl
+            }
+            if(description){
+                app.description=description
+            }
+            await Application.update(app.dataValues,{where:{
                 id:app.id
             }})
             const updateApp = await Application.findByPk(appId);

@@ -27,10 +27,10 @@ module.exports= {
         seederStorage: 'sequelize'
     },
     mailConfig:{
-        appEmail:process.env.APP_EMAIL || 'krean.rathanamsk@gmail.com',
+        appEmail:process.env.APP_EMAIL || 'krean.rathana19@kit.edu.kh',
         appEmailPass:process.env.APP_EMAil_PASS || 'rathanamsk9',
         appEmailTokenSecret:process.env.APP_EMAIL_TOKEN_SECRET ||'f92a5f2b21544412d5c9691dd0b29d5786b02b7a70cee4f74df34ad1613520b9',
-        appResetPassswordTokenSecret:process.env.APP_EMAIL_REFRESH_TOKEN_SECRET || '10d8cd511665be30f944898e020cec2cc7be38be9691fd5c182df788fa2ade81',
+        appResetPassswordTokenSecret:process.env.APP_EMAIL_RESETPASSWORD_TOKEN_SECRET || '10d8cd511665be30f944898e020cec2cc7be38be9691fd5c182df788fa2ade81',
     },
     jwtConfig:{
         tokenSecret:process.env.tokenSecret||'47ccce61c4308313d3d5c1d6360d6362a79763203b3193119ac72f8c45443cdc' ,

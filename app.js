@@ -104,10 +104,7 @@ app.use(session({
 
 // static file
 app.use(express.static(path.join(__dirname, 'public')));
-app.use('/userprofile/userId_11',express.static(path.join(__dirname, 'public/userprofile/userId_11')));
 app.use('/images',express.static(path.join(__dirname, 'public/images')));
-app.use('/js',express.static(path.join(__dirname, 'public/javascripts')));
-
 
 
 app.use('/',verifyEmail);

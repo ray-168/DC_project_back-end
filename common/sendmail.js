@@ -1,9 +1,9 @@
 require('dotenv').config();
 const nodemailer = require('nodemailer');
 const { mailConfig } = require ('../config/config');
-
-
-const sendMail = (emailSubject , toEmail ,htmlText) =>{
+const hbs = require('nodemailer-express-handlebars');
+const ejs = require('ejs');
+const sendMail = (emailSubject , toEmail , html) =>{
     const transpot = nodemailer.createTransport({
         service: 'Gmail',
         host: "smtp.google.com",
@@ -18,9 +18,8 @@ const sendMail = (emailSubject , toEmail ,htmlText) =>{
         from: `${mailConfig.appEmail}`, 
         to: toEmail,
         subject: emailSubject,
-        html: htmlText
+        html: html
       };
-    
       transpot.sendMail(mailOptions, (error, info) => {
         if (error) {
           console.log(error.message);
@@ -29,6 +28,7 @@ const sendMail = (emailSubject , toEmail ,htmlText) =>{
         console.log('Email has been sent: ' + info.response);
         return info;
       });
+
 };
 
 

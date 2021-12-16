@@ -14,9 +14,7 @@ router.get('/google', passport.authenticate('google',{ scope:['profile','email']
 router.get('/google/callback', 
   passport.authenticate('google', { failureRedirect: '/google'}),(req,res)=>{
     const token = (req.user.session.dataValues.accessToken)
-    res.redirect(`http://127.0.0.1:5500/DC_project_front-end/login.html?${token}`)
-
-    
+    res.redirect(process.env.CLIENT_LOGIN+`?${token}`) 
   } 
 )
 

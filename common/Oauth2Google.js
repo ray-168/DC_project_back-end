@@ -25,7 +25,7 @@ passport.deserializeUser(function(id, done) {
 passport.use(new GoogleStrategy({
     clientID: Oauth20Config.Client_ID,
     clientSecret: Oauth20Config.Client_Secret,
-    callbackURL: "http://localhost:3000/auth/google/callback"
+    callbackURL: process.env.CALLBACK_URL
   },
   async function(accessToken, refreshToken, profile, done) {
     // User.findOrCreate({where:{ email: profile.emails }}, function (err, user) {
