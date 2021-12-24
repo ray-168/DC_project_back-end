@@ -1,5 +1,5 @@
 
-const { ROLE_USER, ROLE_ADMIN,ROLE_SUPER_ADMIN } = require('./constant');
+const { ROLE_USER, ROLE_ADMIN,ROLE_MODERATOR } = require('./constant');
 
 
 /*  USER ROLES */
@@ -8,12 +8,12 @@ const isAdminRole = (roles) => {
 	return role.indexOf(ROLE_ADMIN) >= 0;
 };
 
-const getAdminRole = () => {
-	return ROLE_USER.concat(' & ').concat(ROLE_ADMIN);
+const getModeratorRole = () => {
+	return ROLE_USER.concat(' & ').concat(ROLE_MODERATOR);
 };
 
-const getSuperAdminRole = ()=>{
-    return ROLE_USER.concat(' & ').concat(ROLE_ADMIN).concat(' & ').concat(ROLE_SUPER_ADMIN);
+const getAdminRole = ()=>{
+    return ROLE_USER.concat(' & ').concat(ROLE_MODERATOR).concat(' & ').concat(ROLE_ADMIN);
 }
 
 const getUserRole = () => {
@@ -32,7 +32,7 @@ const getAllRoles = () => {
 	return [
 		ROLE_USER,
 		ROLE_ADMIN,
-        ROLE_SUPER_ADMIN
+        ROLE_MODERATOR
 	]
 };
 
@@ -41,11 +41,12 @@ const getAllRoles = () => {
 module.exports = {
 	// User Role
 	getAdminRole,
+	getModeratorRole,
 	getUserRole,
 	isAdminRole,
 	getRole3Array,
 	getRole2String,
 	getAllRoles,
-    getSuperAdminRole,
+    
 
 };

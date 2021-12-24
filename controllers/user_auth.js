@@ -129,6 +129,9 @@ module.exports = {
                 // req.flash("message","nvalid email address. Valid e-mail can contain only latin letters, numbers, '@' and '.'")
                 // return res.status(400).redirect('/users/register')
             }
+            if(email.split('@')[1] !='kit.edu.kh'){
+                return res.status(400).send(response('Only Kirirom Institute Technology email are allow.Other way you can sign your KIT email with google below'))
+            }
 
 
             const registerUser = await User.create({
@@ -567,10 +570,10 @@ module.exports = {
             const { username } = req.body;
             const profile = req.file;
             const profilePath = req.protocol + '://' + req.get('host') + `/userprofile/userId${userId}/${originalProfileName}`;
-
+            
             if (profile) {
                 if (profile.size > 5 * 1000 * 1000) {
-                    return res.status(400).send(response('File to large, Please upload avatar image fileSize less than or equal to 5MB'));
+                    return res.status(400).send(response('File to large, Please upload avatar image fileSize less than or equal to 2MB'));
                 }else{
                     user.profile=profilePath
                 }

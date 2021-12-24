@@ -1,6 +1,6 @@
 const {Application,User,Session, Sequelize} = require('../db/models');
 const {response} = require('../common/response')
-const {getAdminRole,getUserRole} = require('../common/util');
+const {getAdminRole,getUserRole,getModeratorRole} = require('../common/util');
 const {originalImgName} = require('../common/upload_appImage')
 const Op = Sequelize.Op;
 module.exports = {
@@ -114,7 +114,7 @@ module.exports = {
             }
             const imagePath = req.protocol + '://' + req.get('host') + `/appImage/userId${userId}/${originalImgName}`; 
             if(appImage){
-                if (appImage.size > 5 * 100 * 100) {
+                if (appImage.size > 5 * 1000 * 1000) {
                     return res.status(400).send(response('File to large, Please upload avatar image fileSize less than or equal to 5MB'));
                 }
                 else{
@@ -171,7 +171,17 @@ module.exports = {
                     }
                 });
             }
-            if (role == 'user'){
+            else if (role == 'moderator'){
+                user.role = getModeratorRole()
+                await User.update({
+                    role:user.role
+                },{
+                    where:{
+                        id:user.id
+                    }
+                });
+            }
+            else if (role == 'user'){
                 user.role = getUserRole();
                 await User.update({
                     role:user.role
@@ -216,9 +226,9 @@ module.exports = {
             const allUsers = await User.findAll({
                 where:{
                     id:{
-                        [Op.ne]:userId
-                        
+                        [Op.notIn]: [1,userId]
                     }
+                    ,isConfirm:true
                 }
             });
             return res.status(200).send(response('successful change user role',allUsers))

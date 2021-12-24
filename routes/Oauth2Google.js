@@ -11,7 +11,7 @@ router.get('/google', passport.authenticate('google',{ scope:['profile','email']
 
 //REDIRECT USER TO HOME PAGE
 
-router.get('/google/callback', 
+router.get('/google/callback',
   passport.authenticate('google', { failureRedirect: '/google'}),(req,res)=>{
     const token = (req.user.session.dataValues.accessToken)
     res.redirect(process.env.CLIENT_LOGIN+`?${token}`) 

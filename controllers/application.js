@@ -36,9 +36,6 @@ module.exports = {
             if (!appUrl){
                 return res.status(400).send(response('application url is require'));
             }
-            if (!description){
-                return res.status(400).send(response('application description is require'));
-            }
             if (!appImage){
                 return res.status(400).send(response('application image is require'));
             }

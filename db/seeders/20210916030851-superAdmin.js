@@ -3,7 +3,7 @@
 
 const bcrypt = require('bcrypt');
 const {User,Session} =require('../models');
-const { getSuperAdminRole } = require('../../common/util');
+const { getAdminRole } = require('../../common/util');
 const {passwordValidation} = require('../../common/validation');
 module.exports = {
   up: async (queryInterface, Sequelize) => {
@@ -26,7 +26,7 @@ module.exports = {
         username: 'Coin Super Admin',
         email: email,
         password: hashPassword,
-        role: getSuperAdminRole(),
+        role: getAdminRole(),
         isConfirm: true,
         session: {
           accessToken: null,

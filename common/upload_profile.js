@@ -2,6 +2,7 @@
 const multer = require('multer');
 const mkdirp = require('mkdirp');
 const { User } = require('../db/models');
+var path = require('path');
 
 /* MULTER FILE UPLOAD MIDDLEWARE */
 // define empty array to get originalAvatarName
@@ -38,7 +39,9 @@ const multerUploadAvatarStorage = multer.diskStorage({
 
 //  -> Filter file types
 const imageFilter = (req, file, cb) => {
-    if (file.mimetype.startsWith('image')) {
+    var ext = path.extname(file.originalname);
+    const imageList =['image/png','image/jpg','image/gif','image/jpeg','image/PNG','image/JPG','image/GIF','image/JPEG']
+    if (imageList.includes(file.mimetype)) {
         cb(null, true);
     } else {
         cb(null, false);

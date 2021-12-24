@@ -19,8 +19,8 @@ const apllicationRouter = require('./routes/application');
 const Oauth2Google = require('./routes/Oauth2Google');
 const verifyEmail = require('./routes/verifyEmail');
 const user_resetPassword = require('./routes/user_resetPassword');
-const super_adminRouter = require('./routes/super_admin');
-const adminRouter= require('./routes/admin');
+const adminRouter = require('./routes/admin');
+const moderatorRouter= require('./routes/admin');
 const publishRoutes = require('./routes/publishRoutes');
 const app = express();
 
@@ -102,9 +102,17 @@ app.use(session({
   resave: true
 }));
 
+
+
+
+
+
 // static file
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/images',express.static(path.join(__dirname, 'public/images')));
+
+//prevent defualt express get request from favicon file
+app.get('/favicon.ico', (req, res) => res.status(204));
 
 
 app.use('/',verifyEmail);
@@ -113,8 +121,8 @@ app.use('/auth',Oauth2Google);
 app.use('/users',publishRoutes);
 app.use('/users',jwt(),sessionAuthenticationMiddleware,checkRole('ROLE_USER'),authRouter);
 app.use('/users',jwt(),sessionAuthenticationMiddleware,checkRole('ROLE_USER'),apllicationRouter);
-app.use('/admin',jwt(),sessionAuthenticationMiddleware,checkRole('ROLE_ADMIN'),adminRouter);
-app.use('/super_admin',jwt(),sessionAuthenticationMiddleware,checkRole('ROLE_SUPER_ADMIN'),super_adminRouter); 
+app.use('/moderator',jwt(),sessionAuthenticationMiddleware,checkRole('ROLE_MODERATOR'),moderatorRouter);
+app.use('/admin',jwt(),sessionAuthenticationMiddleware,checkRole('ROLE_ADMIN'),adminRouter); 
 
 
 // catch 404 and forward to error handler
