@@ -15,10 +15,10 @@ module.exports = {
                 },order:[['createdAt','DESC']]
                 
             });
-            return res.status(200).send(response('success get application',app))
+            return res.status(200).send(response('Successful Get Application',app))
         }catch(err){
             console.log(err.message);
-            return res.status(500).send(response('fail to get application'))
+            return res.status(500).send(response('Fail To Get Application'))
         }
     },
     // get all app haven't been approve yet
@@ -31,10 +31,10 @@ module.exports = {
                     as:'user'
                 },order:[['createdAt','DESC']]
             });
-            return res.status(200).send(response('success get application',app))
+            return res.status(200).send(response('Successful Get Application',app))
         }catch(err){
             console.log(err.message);
-            return res.status(500).send(response('fail to get application'))
+            return res.status(500).send(response('Fail To Get Application'))
         }
     },
     // super admin approve app user request
@@ -44,13 +44,13 @@ module.exports = {
             // check if app exist in db
             const app = await Application.findByPk(appId);
             if (!app){
-                return res.status(400).send(response('app not found'));
+                return res.status(400).send(response('App Not Found'));
             }
             if (app.isApprove){
-                return res.status(400).send(response('app already approve'))
+                return res.status(400).send(response('App Already Approve'))
             }
             await Application.update({isApprove:true},{where:{id:app.id}});
-            return res.status(200).send(response('successful approve app'));
+            return res.status(200).send(response('Successful Approve App'));
         }   
         catch(err){
             console.log(err.message);
@@ -63,17 +63,17 @@ module.exports = {
             const appId = req.params.id;
             const app = await Application.findByPk(appId);
             if (!app){
-                return res.status(400).send(response('app not found'));
+                return res.status(400).send(response('App Not Found'));
             }
             if(app.isApprove){
-                return res.status(500).send(response('app already approved. you can not deny'));
+                return res.status(500).send(response('App Already Approved. You Can Not Deny'));
             }
             const denyApp = await Application.destroy({where:{id:app.id,isApprove:false}});
-            return res.status(200).send(response('Request have been deny',denyApp));
+            return res.status(200).send(response('Request Have Been Deny',denyApp));
 
         }catch(err){
             console.log(err.message);
-            return res.status(500).send(response('fail to deny app'));
+            return res.status(500).send(response('Fail To Deny App'));
         }
     },
     //super admin deleted app
@@ -83,14 +83,14 @@ module.exports = {
             //find app in db
             const app = await Application.findByPk(appId);
             if(!app){
-                return res.status(400).send(response('app not found'));
+                return res.status(400).send(response('App Not Found'));
             }
             const deletedApp = await Application.destroy({where:{id:app.id}});
-            return res.status(200).send(response('successfull deny app',deletedApp));
+            return res.status(200).send(response('Successful Deny App',deletedApp));
         }
         catch(err){
             console.log(err.message);
-            return res.status(500).send(response('fail to delete app'));
+            return res.status(500).send(response('Fail To Delete App'));
         }
     },
     //super admin edit application 
@@ -107,15 +107,15 @@ module.exports = {
             // console.log(appName,appImage)
             
             if (!app){
-                return res.status(400).send(response('app not found'));
+                return res.status(400).send(response('App Not Found'));
             }
             if(!app.isApprove){
-                return res.status(400).send(response('app did not approve yet. you must go and approve it first before edit'));
+                return res.status(400).send(response('App Did Not Approve Yet. You Must Approve It First Before Edit'));
             }
             const imagePath = req.protocol + '://' + req.get('host') + `/appImage/userId${userId}/${originalImgName}`; 
             if(appImage){
                 if (appImage.size > 5 * 1000 * 1000) {
-                    return res.status(400).send(response('File to large, Please upload avatar image fileSize less than or equal to 5MB'));
+                    return res.status(400).send(response('Please Upload Image File Size Less Than Or Equal To 5MB'));
                 }
                 else{
                     app.appImage=imagePath
@@ -134,7 +134,7 @@ module.exports = {
                 id:app.id
             }})
             const updateApp = await Application.findByPk(appId);
-            return res.status(200).send(response('successful update application',{
+            return res.status(200).send(response('Successful Update Application',{
                 appNmae:updateApp.appName,
                 appImg:updateApp.appImage,
                 appUrl:updateApp.appUrl,
@@ -143,7 +143,7 @@ module.exports = {
         }
         catch (err){
             console.log(err.message);
-            return res.status(500).send(response('fail to edit app'));
+            return res.status(500).send(response('Fail To Edit App'));
         }
     },
     //super admin change other user role
@@ -158,7 +158,7 @@ module.exports = {
                 }
             });
             if (!user){
-                return res.status(400).send(response('user not found'));
+                return res.status(400).send(response('User Not Found'));
             }
             const {role} = req.body;
             if (role == 'admin'){
@@ -200,7 +200,7 @@ module.exports = {
                     id:user.session.id
                 }
             })
-            return res.status(200).send(response(`successful change user to role ${role}`,{
+            return res.status(200).send(response(`Successful Change User To Role ${role}`,{
                 id:user.id,
                 username:user.username,
                 email:user.email,
@@ -216,7 +216,7 @@ module.exports = {
         }
         catch(err){
             console.log(err.message);
-            return res.status(500).send(response('fail to change user role')); 
+            return res.status(500).send(response('Fail To Change User Role')); 
         }
     },
     // all user 
@@ -231,12 +231,12 @@ module.exports = {
                     ,isConfirm:true
                 }
             });
-            return res.status(200).send(response('successful change user role',allUsers))
+            return res.status(200).send(response('Successful Change User Role',allUsers))
 
         }
         catch(err){
             console.log(err.message);
-            return res.status(500).send(response('fail to get all user')); 
+            return res.status(500).send(response('Fail To Get All User')); 
         }
     } 
 }

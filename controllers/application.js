@@ -31,16 +31,16 @@ module.exports = {
             console.log(appImage)
 
             if (!appName){
-                return res.status(400).send(response('application name is require'));
+                return res.status(400).send(response('Application Name Is Require'));
             }
             if (!appUrl){
-                return res.status(400).send(response('application url is require'));
+                return res.status(400).send(response('Application Url Is Require'));
             }
             if (!appImage){
-                return res.status(400).send(response('application image is require'));
+                return res.status(400).send(response('Application Image Is Require'));
             }
             if (appImage.size > 5 * 1000 * 1000) {
-                return res.status(400).send(response('File to large, Please upload avatar image fileSize less than or equal to 5MB'));
+                return res.status(400).send(response('Please Upload Image File Size Less Than Or Equal To 5MB'));
             }
             // get app image path in server
             const imagePath = req.protocol + '://' + req.get('host') + `/appImage/userId${userId}/${originalImgName}`; 
@@ -53,7 +53,7 @@ module.exports = {
                 appImage:imagePath,
                 isApprove:false,
             })
-            return res.status(200).send(response('successfull post new application. please wait for an approval',{
+            return res.status(200).send(response('Successful Post New Application. Please Wait For An Approval',{
                 userId:app.userId,
                 appName:app.appName,
                 appUrl:app.appUrl,
@@ -66,7 +66,7 @@ module.exports = {
         }
         catch (err){
             console.log(err.message);
-            return res.status(500).send(response('fail to post new application'));
+            return res.status(500).send(response('Fail To Post New Application'));
         }
     }
 }
