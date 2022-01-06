@@ -20,7 +20,7 @@ const Oauth2Google = require('./routes/Oauth2Google');
 const verifyEmail = require('./routes/verifyEmail');
 const user_resetPassword = require('./routes/user_resetPassword');
 const adminRouter = require('./routes/admin');
-const moderatorRouter= require('./routes/admin');
+const moderatorRouter= require('./routes/moderator');
 const publishRoutes = require('./routes/publishRoutes');
 const app = express();
 

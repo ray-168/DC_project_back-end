@@ -39,9 +39,9 @@ const multerUploadAvatarStorage = multer.diskStorage({
 
 //  -> Filter file types
 const imageFilter = (req, file, cb) => {
+    const imageList =['.png','.jpg','.gif','.jpeg','.PNG','.JPG','.GIF','.JPEG']
     var ext = path.extname(file.originalname);
-    const imageList =['image/png','image/jpg','image/gif','image/jpeg','image/PNG','image/JPG','image/GIF','image/JPEG']
-    if (imageList.includes(file.mimetype)) {
+    if (imageList.includes(ext)) {
         cb(null, true);
     } else {
         cb(null, false);

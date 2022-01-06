@@ -1,6 +1,7 @@
 const {response} = require('../common/response');
 const {User, Session, Application} = require('../db/models');
 const {originalImgName} = require('../common/upload_appImage');
+const {passwordValidation,textValidation,urlValidation} = require('../common/validation');
 
 module.exports = {
 
@@ -33,8 +34,14 @@ module.exports = {
             if (!appName){
                 return res.status(400).send(response('Application Name Is Require'));
             }
+            if (!textValidation(appName)){
+                return res.status(400).send(response('App Name Allow Only Charactor Aa-Zz number 0-9 And Space'));
+            }
             if (!appUrl){
                 return res.status(400).send(response('Application Url Is Require'));
+            }
+            if (!urlValidation(appUrl)){
+                return res.status(400).send(response('App Url Symbols Allow Only[:/?=#_-.@+~]'));
             }
             if (!appImage){
                 return res.status(400).send(response('Application Image Is Require'));

@@ -35,7 +35,9 @@ const multerUploadImgStorage = multer.diskStorage({
 
 //  -> Filter file types
 const imageFilter = (req, file, cb) => {
-    if (file.mimetype.startsWith('image')) {
+    const imageList =['.png','.jpg','.gif','.jpeg','.PNG','.JPG','.GIF','.JPEG']
+    const ext = path.extname(file.originalname)
+    if (imageList.includes(ext)){
         cb(null, true);
     } else {
         cb(null, false);

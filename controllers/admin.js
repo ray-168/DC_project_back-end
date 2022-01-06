@@ -1,5 +1,6 @@
 const {Application,User,Session, Sequelize} = require('../db/models');
-const {response} = require('../common/response')
+const {response} = require('../common/response');
+const {passwordValidation,textValidation,urlValidation} = require('../common/validation');
 const {getAdminRole,getUserRole,getModeratorRole} = require('../common/util');
 const {originalImgName} = require('../common/upload_appImage')
 const Op = Sequelize.Op;
@@ -121,11 +122,20 @@ module.exports = {
                     app.appImage=imagePath
                 }
             }
+            if (!textValidation(appName)){
+                return res.status(400).send(response('User Name Allow Only Character Aa-Zz Number 0-9 And Space'));
+            }
             if(appName){
                 app.appName=appName
             }
+            if (!urlValidation(appUrl)){
+                return res.status(400).send(response('App Url Symbols Allow Only[:/?=#_-.@+~]'));
+            }
             if(appUrl){
                 app.appUrl=appUrl
+            }
+            if (!textValidation(description)){
+                return res.status(400).send(response('Description Allow Only Character Aa-Zz Number 0-9 And Space'));
             }
             if(description){
                 app.description=description

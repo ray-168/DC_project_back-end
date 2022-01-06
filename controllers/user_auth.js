@@ -11,7 +11,7 @@ const bcrypt = require('bcrypt');
 const email_validator = require('email-validator');
 const util = require('../common/util');
 const {jwtConfig} = require('../config/config');
-const {passwordValidation} = require('../common/validation');
+const {passwordValidation,textValidation,urlValidation} = require('../common/validation');
 const {originalProfileName} = require('../common/upload_profile');
 
 const sendEmailVerification = async function(req , registerUser){
@@ -78,59 +78,43 @@ module.exports = {
     //  user register
     async userRegister (req ,res) {
         try{
-
             //user input information field
             const {username , email , password , confirmPassword} = req.body;
-            
+
+            //Validation input
             if (!username){
                 return res.status(400).send(response('Username Is Require!'));
-                // req.flash("message","username is require")
-                // return res.status(400).redirect('/users/register')
-            } 
+            }
+            if(!textValidation(username)){
+                return res.status(400).send(response('User Name Allow Only Character Aa-Zz Number 0-9 And Space'));
+            }
             if(!email){
                 return res.status(400).send(response('Email Is Require!'));
-                
-                // req.flash("message","Email is require")
-                // return res.status(400).redirect('/users/register')
             }
+            if (!email_validator.validate(email)){
+                return res.status(400).send(response('Your Email Is Invalid'))
+            }
+            if(email.split('@')[1] !='kit.edu.kh'){
+                return res.status(400).send(response('Only Kirirom Institute Technology Email Are Allow. Other Way You Can Sign Your KIT Email With Google Below'))
+            }
+
             // check if email already exsits
             const finduser = await User.findOne({ where: { email: req.body.email } });
-
             if (finduser){
                 return res.status(400).send(response('Email Is Already Exsits'));
-                // req.flash("message","Email is already exists")
-                // return res.status(400).redirect('/users/register')
             }
-
-           
             if(!password){
                 return res.status(400).send(response('Password Is Require!'));
-                // req.flash("message","password is require")
-                // return res.status(400).redirect('/users/register')
             }
             if(!passwordValidation(password)){
                 return res.status(400).send(response('Your Password Should Contain At Least One Uppercase One Lowercase One Number And Length Between 8 To 20 Characters'));
-                // req.flash("message","your password should contain at least one upper case, one lower case , one number and length between 8 to 20 characters")
-                // return res.status(400).redirect('/users/register')
             }
             if(!confirmPassword){
                 return res.status(400).send(response('Confirm Password Is Require!'));
-                // req.flash("message","confirm password is require!")
-                // return res.status(400).redirect('/users/register')
             }
             const hashpassword = await bcrypt.hash(password , await bcrypt.genSalt(15));
             if(password!=confirmPassword){
                 return res.status(400).send(response('Confirm Password Not Match!'));
-                // req.flash("message","confirm password and password is not match!")
-                // return res.status(400).redirect('/users/register')
-            }
-            if (!email_validator.validate(email)){
-                return res.status(400).send(response('Your Email Is Invalid'))
-                // req.flash("message","nvalid email address. Valid e-mail can contain only latin letters, numbers, '@' and '.'")
-                // return res.status(400).redirect('/users/register')
-            }
-            if(email.split('@')[1] !='kit.edu.kh'){
-                return res.status(400).send(response('Only Kirirom Institute Technology Email Are Allow. Other Way You Can Sign Your KIT Email With Google Below'))
             }
 
 
@@ -221,16 +205,13 @@ module.exports = {
             // check required fields
             const { email, password } = req.body;
             if (!email) {
-                
-                // req.flash('message',"Email is require")
-                // return res.redirect('/users/login');
                 res.status(400).send(response('Email Is Required'))
             }
-
+            if (!email_validator.validate(email)){
+                return res.status(400).send(response('Your Email Is Invalid'))   
+            }
             if (!password) {
                 return res.status(400).send(response('Password are required'))
-                // req.flash('message',"password is require")
-                // return res.redirect('/users/login');
             }
 
             const user = await User.findOne({ where: { email: email } });
@@ -305,23 +286,8 @@ module.exports = {
         } catch (err) {
             console.log(err.message);
             return res.status(500).send(response('Login Failed'));
-            // req.flash('message',"Fail to login . please try again")
-            // return res.redirect('/users/login');
         }
     },
-
-    // verifyEmail:async (req,res)=>{
-    //     try{
-    //         const token = req.headers['authorization'].split(' ')[1];
-    //         if (!token){
-    //             return res.status(400).send(response('no authorization token was found'));
-    //         }
-    //         console.log(token)
-    //     }catch(err){
-    //         console.log(err.message);
-    //         return res.status(500).send(response('fail to verify email'))
-    //     }
-    // },
 
     /* USER REFRESH TOKEN */
     userRefreshToken:async(req, res) =>{
@@ -413,7 +379,6 @@ module.exports = {
             if (!currentPasswordCompare) {
                 return res.status(400).send(response('Input Wrong Current Password'));
             }
-
             if (!passwordValidation(newPassword)) {
                 return res.status(400).send(response('Password Should Contains At Least One Numeric Digit One Uppercase And One Lowercase Letter Between 8 To 20 Characters'));
             }
@@ -524,7 +489,6 @@ module.exports = {
             if (!user) {
                 return res.status(404).send(response('User Not Found'));
             }
-
             if (!user.isConfirm) {
                 return res.status(400).send(response('Your Account Is Not Confirmed Yet'));
             }
@@ -544,7 +508,6 @@ module.exports = {
             return res.status(500).send(response('Failed To Reset Password'));
         }
     },
-    
     // USER GET PROFILE
      userGetProfile:async (req,res)=>{
         try{
@@ -584,11 +547,9 @@ module.exports = {
                     user.profile=profilePath
                 }
             }
-            // limit file size
-            
-            
-
-  
+            if(!textValidation(username)){
+                return res.status(400).send(response('User Name Allow Only Aa-Zz Number 0-9 And Space'));
+            }
             // console.log("profile", profile)
             if (username) { user.username = username };
             if (profile) {user.profile = profilePath}
