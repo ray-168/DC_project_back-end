@@ -7,7 +7,7 @@ const {uploadImageFile} = require('../common/upload_appImage')
 
 
 //admin create app
-router.post('/app',applicationControler.createApllication);
+router.post('/app',uploadImageFile.single('appImage'),applicationControler.createApllication);
 
 // get app already approve
 router.get('/approve_app',adminControler.getApproveApp);

@@ -2,7 +2,7 @@
 const multer = require("multer");
 const mkdirp = require('mkdirp');
 const { User } = require('../db/models');
-
+const path = require('path')
 /* MULTER FILE UPLOAD MIDDLEWARE */
 // define empty array to get originalImgName
 const originalImgName = [];

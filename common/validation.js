@@ -16,7 +16,7 @@ const textValidation = function(text){
     }
 }
 const urlValidation = function(url){
-    const regex = /^([(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*))$/g
+    const regex = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/g
     if(String(url).match(regex)){
         return true
     }else{

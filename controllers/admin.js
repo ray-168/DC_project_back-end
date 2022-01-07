@@ -128,10 +128,10 @@ module.exports = {
             if(appName){
                 app.appName=appName
             }
-            if (!urlValidation(appUrl)){
-                return res.status(400).send(response('App Url Symbols Allow Only[:/?=#_-.@+~]'));
-            }
             if(appUrl){
+                if (!urlValidation(appUrl)){
+                    return res.status(400).send(response('App Url Must Be Public Begin With Http Or Https And Symbols Allow Only[:/?=#_-.@+~]'));
+                }
                 app.appUrl=appUrl
             }
             if (!textValidation(description)){

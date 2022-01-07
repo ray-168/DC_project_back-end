@@ -2,8 +2,10 @@ const router = require('express').Router();
 const adminControler = require('../controllers/admin');
 const applicationControler  =require('../controllers/application');
 const {uploadImageFile} = require('../common/upload_appImage');
+
+
 //admin create app
-router.post('/app',applicationControler.createApllication);
+router.post('/app',uploadImageFile.single('appImage'),applicationControler.createApllication);
 
 //admin get app already approve
 router.get('/approve_app',adminControler.getApproveApp);

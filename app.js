@@ -118,7 +118,7 @@ app.get('/favicon.ico', (req, res) => res.status(204));
 app.use('/',verifyEmail);
 app.use('/',user_resetPassword);
 app.use('/auth',Oauth2Google);
-app.use('/users',publishRoutes);
+app.use('/api/users',publishRoutes);
 app.use('/users',jwt(),sessionAuthenticationMiddleware,checkRole('ROLE_USER'),authRouter);
 app.use('/users',jwt(),sessionAuthenticationMiddleware,checkRole('ROLE_USER'),apllicationRouter);
 app.use('/moderator',jwt(),sessionAuthenticationMiddleware,checkRole('ROLE_MODERATOR'),moderatorRouter);

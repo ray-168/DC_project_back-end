@@ -41,7 +41,7 @@ module.exports = {
                 return res.status(400).send(response('Application Url Is Require'));
             }
             if (!urlValidation(appUrl)){
-                return res.status(400).send(response('App Url Symbols Allow Only[:/?=#_-.@+~]'));
+                return res.status(400).send(response('App Url Must Be Public And Begin With Http Or Https And Symbols Allow Only[:/?=#_-.@+~]'));
             }
             if (!appImage){
                 return res.status(400).send(response('Application Image Is Require'));
