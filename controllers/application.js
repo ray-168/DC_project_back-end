@@ -29,7 +29,6 @@ module.exports = {
             const userId  = req.user.id;
             // check upload image feild
             const appImage = req.file;
-            console.log(appImage)
 
             if (!appName){
                 return res.status(400).send(response('Application Name Is Require'));
@@ -48,6 +47,9 @@ module.exports = {
             }
             if (appImage.size > 5 * 1000 * 1000) {
                 return res.status(400).send(response('Please Upload Image File Size Less Than Or Equal To 5MB'));
+            }
+            if(!textValidation(description)){
+                return res.status(400).send(response('Description Allow Only Charactor Aa-Zz number 0-9 And Space'));
             }
             // get app image path in server
             const imagePath = req.protocol + '://' + req.get('host') + `/appImage/userId${userId}/${originalImgName}`; 
