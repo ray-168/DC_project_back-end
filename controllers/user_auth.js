@@ -94,12 +94,12 @@ module.exports = {
             if (!email_validator.validate(email)){
                 return res.status(400).send(response('Your Email Is Invalid'))
             }
-            if(email.split('@')[1] !='kit.edu.kh'){
+            if(email.toLowerCase().split('@')[1] !='kit.edu.kh'){
                 return res.status(400).send(response('Only Kirirom Institute Technology Email Are Allow. Other Way You Can Sign Your KIT Email With Google Below'))
             }
 
             // check if email already exsits
-            const finduser = await User.findOne({ where: { email: req.body.email } });
+            const finduser = await User.findOne({ where: { email: req.body.email.toLowerCase() } });
             if (finduser){
                 return res.status(400).send(response('Email Is Already Exsits'));
             }
@@ -120,7 +120,7 @@ module.exports = {
 
             const registerUser = await User.create({
                 username:username,
-                email:email,
+                email:email.toLowerCase(),
                 password:hashpassword,
                 confirmPassword:confirmPassword,
                 role:util.getUserRole(),
@@ -214,7 +214,7 @@ module.exports = {
                 return res.status(400).send(response('Password are required'))
             }
 
-            const user = await User.findOne({ where: { email: email } });
+            const user = await User.findOne({ where: { email: email.toLowerCase() } });
             if (!user) {
                 return res.status(400).send(response('Invalid Email Or Password'));
                 // req.flash('message',"Email not register yet. You can sign in with google below")
