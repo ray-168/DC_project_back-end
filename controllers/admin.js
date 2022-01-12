@@ -237,9 +237,9 @@ module.exports = {
                 where:{
                     id:{
                         [Op.notIn]: [1,userId]
-                    }
-                    ,isConfirm:true
-                }
+                    },
+                    isConfirm:true
+                },order:[['createdAt','DESC']]
             });
             return res.status(200).send(response('Successful Change User Role',allUsers))
 
