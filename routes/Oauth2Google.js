@@ -9,7 +9,7 @@ router.use(passport.initialize());
 //USER AUTHENTICATE WITH GOOGLE
 router.get('/google', passport.authenticate('google',{ scope:['profile','email']}));
 
-//REDIRECT USER TO HOME PAGE
+//REDIRECT USER TO HOME PAGE AFTER LOGIN SUCCESSFUL WITH GOOGLE
 
 router.get('/google/callback',
   passport.authenticate('google', { failureRedirect: '/google'}),(req,res)=>{

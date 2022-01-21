@@ -29,7 +29,7 @@ const sendEmailVerification = async function(req , registerUser){
     const html = `<h3>Hello ${payload.email}, welcome to Data center 2.0!</h3><br />
     <p style="margin: 0;">We're Excited To Have You Get Started. First, You Need To Confirm Your Account. Just Press The Button Below.</p><br/><br/>
     <a href="${link}">Verify Now!</a>`;
-    const emailSubject = 'Email Verificatication';
+    const emailSubject = 'Email Verification';
 
     try{
         await sendMail(emailSubject, payload.email, html);
