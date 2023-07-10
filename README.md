@@ -1,6 +1,6 @@
 # DC_project_back-end
 
-## ow to install
+## how to install
 ```npm install```
 ## how to run
 ```npm run dev```
